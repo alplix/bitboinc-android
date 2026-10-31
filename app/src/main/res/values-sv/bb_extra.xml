@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">Använd GPU</string>
+    <string name="bb_gpu_hint">Endast applikationer som stöder din telefons GPU kommer att använda den.</string>
+    <string name="bb_refresh">Uppdatera</string>
+    <string name="bb_refreshed">Uppdaterad</string>
+    <string name="bb_bg_title">Låt BitBOINC köras i bakgrunden</string>
+    <string name="bb_bg_intro">Android stoppar bakgrundsappar för att spara batteri. Tillåt dessa så beräkningen fortsätter när skärmen är av.</string>
+    <string name="bb_bg_battery">Obegränsad batterianvändning</string>
+    <string name="bb_bg_notif">Visa aviseringar (nödvändigt för att fortsätta arbeta)</string>
+    <string name="bb_bg_vendor">Tillåt automatisk start och bakgrundsaktivitet i din telefons egna inställningar</string>
+    <string name="bb_bg_allow">Tillåt</string>
+    <string name="bb_bg_open">Öppna inställningar</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_tasks_all">Tâches</string>
+    <string name="bb_due">Échéance %1$s</string>
+    <string name="bb_task_running">En cours</string>
+    <string name="bb_task_paused">En pause</string>
+    <string name="bb_task_waiting">En attente de lancement</string>
+    <string name="bb_task_downloading">Téléchargement</string>
+    <string name="bb_task_uploading">Téléversement</string>
+    <string name="bb_task_ready">Terminé, en cours de rapport</string>
+    <string name="bb_task_failed">Échec</string>
+</resources>

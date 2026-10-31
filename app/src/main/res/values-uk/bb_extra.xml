@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">Використовувати графічний процесор</string>
+    <string name="bb_gpu_hint">Тільки програми, які підтримують графічний процесор вашого телефону, його використовуватимуть.</string>
+    <string name="bb_refresh">Оновити</string>
+    <string name="bb_refreshed">Оновлено</string>
+    <string name="bb_bg_title">Дозволити BitBOINC працювати у фоновому режимі</string>
+    <string name="bb_bg_intro">Android зупиняє фонові програми для економії заряду батареї. Дозвольте це, щоб обчислення продовжувалися, коли екран вимкнено.</string>
+    <string name="bb_bg_battery">Необмежене використання батареї</string>
+    <string name="bb_bg_notif">Показувати сповіщення (потрібно для продовження роботи)</string>
+    <string name="bb_bg_vendor">Дозволити автоматичний запуск та фонову активність у власних налаштуваннях телефону</string>
+    <string name="bb_bg_allow">Дозволити</string>
+    <string name="bb_bg_open">Відкрити налаштування</string>
+</resources>

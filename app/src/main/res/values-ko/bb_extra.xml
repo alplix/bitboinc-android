@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">GPU 사용</string>
+    <string name="bb_gpu_hint">휴대폰의 GPU를 지원하는 애플리케이션만 사용합니다.</string>
+    <string name="bb_refresh">새로고침</string>
+    <string name="bb_refreshed">새로고침됨</string>
+    <string name="bb_bg_title">BitBOINC를 백그라운드에서 실행</string>
+    <string name="bb_bg_intro">안드로이드는 배터리 절약을 위해 백그라운드 앱을 중지합니다. 이 설정을 허용하면 화면이 꺼져 있을 때도 컴퓨팅이 계속됩니다.</string>
+    <string name="bb_bg_battery">제한 없는 배터리 사용</string>
+    <string name="bb_bg_notif">알림 표시 (작동을 유지하는 데 필요함)</string>
+    <string name="bb_bg_vendor">휴대폰 자체 설정에서 자동 시작 및 백그라운드 활동 허용</string>
+    <string name="bb_bg_allow">허용</string>
+    <string name="bb_bg_open">설정 열기</string>
+</resources>

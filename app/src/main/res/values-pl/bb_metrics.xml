@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">Całkowity kredyt</string>
+    <string name="bb_metric_rac">Ostatnia średnia kredyt</string>
+    <string name="bb_metric_results">Ukończone ważne zadania</string>
+    <string name="bb_metric_dp">Znalezione wyróżnione punkty Keraunos</string>
+    <string name="bb_metric_sphinx_dp">Znalezione wyróżnione punkty Sphinx</string>
+    <string name="bb_metric_potamos">Ukończone fragmenty Potamos</string>
+    <string name="bb_metric_hosts">Wnoszące urządzenia</string>
+    <string name="bb_metric_age">Dni jako wolontariusz</string>
+    <string name="bb_metric_gpu">Ukończone zadania GPU</string>
+    <string name="bb_metric_platforms">Wykorzystane różne platformy</string>
+    <string name="bb_metric_hours">Wniesione godziny obliczeniowe</string>
+    <string name="bb_metric_kampylos">Ukończone wyniki Kampylos</string>
+    <string name="bb_metric_nostos">Wyniki Nostos zakończone</string>
+    <string name="bb_metric_phygas">Wyniki Phygas zakończone</string>
+</resources>

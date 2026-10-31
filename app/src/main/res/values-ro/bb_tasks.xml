@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_tasks_all">Sarcini</string>
+    <string name="bb_due">Scadent la %1$s</string>
+    <string name="bb_task_running">În curs de rulare</string>
+    <string name="bb_task_paused">Pauzat</string>
+    <string name="bb_task_waiting">Așteptă rularea</string>
+    <string name="bb_task_downloading">Descărcare</string>
+    <string name="bb_task_uploading">Încărcare</string>
+    <string name="bb_task_ready">Gata, raportare</string>
+    <string name="bb_task_failed">Eșuat</string>
+</resources>

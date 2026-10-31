@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">Použít GPU</string>
+    <string name="bb_gpu_hint">Pouze aplikace podporující GPU vašeho telefonu ji použijí.</string>
+    <string name="bb_refresh">Aktualizovat</string>
+    <string name="bb_refreshed">Aktualizováno</string>
+    <string name="bb_bg_title">Nechte BitBOINC běžet v pozadí</string>
+    <string name="bb_bg_intro">Android zastavuje aplikace v pozadí pro úsporu baterie. Umožněte to, aby výpočty pokračovaly, když je obrazovka vypnutá.</string>
+    <string name="bb_bg_battery">Neomezený výpomoc baterie</string>
+    <string name="bb_bg_notif">Zobrazit upozornění (potřebné k udržení provozu)</string>
+    <string name="bb_bg_vendor">Umožnit automatické spouštění a pozadní aktivitu v nastavení vašeho telefonu</string>
+    <string name="bb_bg_allow">Umožnit</string>
+    <string name="bb_bg_open">Otevřít nastavení</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">Totale credits</string>
+    <string name="bb_metric_rac">Recente gemiddelde credits</string>
+    <string name="bb_metric_results">Voltooide geldige taken</string>
+    <string name="bb_metric_dp">Gevonden Keraunos onderscheidende punten</string>
+    <string name="bb_metric_sphinx_dp">Gevonden Sphinx onderscheidende punten</string>
+    <string name="bb_metric_potamos">Voltooide Potamos stukken</string>
+    <string name="bb_metric_hosts">Bijdragende apparaten</string>
+    <string name="bb_metric_age">Dagen als vrijwilliger</string>
+    <string name="bb_metric_gpu">Voltooide GPU-taken</string>
+    <string name="bb_metric_platforms">Gebruikte platforms</string>
+    <string name="bb_metric_hours">Gecontibreerde rekentijd</string>
+    <string name="bb_metric_kampylos">Voltooide Kampylos resultaten</string>
+    <string name="bb_metric_nostos">Nostos resultaten voltooid</string>
+    <string name="bb_metric_phygas">Phygas resultaten voltooid</string>
+</resources>

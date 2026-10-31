@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_tasks_all">Görevler</string>
+    <string name="bb_due">Prazo %1$s</string>
+    <string name="bb_task_running">Çalışıyor</string>
+    <string name="bb_task_paused">Duraklatıldı</string>
+    <string name="bb_task_waiting">Çalışmayı bekliyor</string>
+    <string name="bb_task_downloading">İndiriliyor</string>
+    <string name="bb_task_uploading">Yükleniyor</string>
+    <string name="bb_task_ready">Tamamlandı, raporlanıyor</string>
+    <string name="bb_task_failed">Başarısız oldu</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_tasks_all">작업</string>
+    <string name="bb_due">마감일 %1$s</string>
+    <string name="bb_task_running">실행 중</string>
+    <string name="bb_task_paused">일시 중지됨</string>
+    <string name="bb_task_waiting">실행 대기 중</string>
+    <string name="bb_task_downloading">다운로드 중</string>
+    <string name="bb_task_uploading">업로드 중</string>
+    <string name="bb_task_ready">완료, 보고 중</string>
+    <string name="bb_task_failed">실패</string>
+</resources>

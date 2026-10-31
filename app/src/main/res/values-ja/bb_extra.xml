@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">GPUを使用</string>
+    <string name="bb_gpu_hint">お使いのスマートフォンのGPUをサポートするアプリケーションのみが使用します。</string>
+    <string name="bb_refresh">更新</string>
+    <string name="bb_refreshed">更新済み</string>
+    <string name="bb_bg_title">BitBOINCをバックグラウンドで実行</string>
+    <string name="bb_bg_intro">Androidはバッテリーを節約するためにバックグラウンドアプリを停止します。これらを許可すると、画面がオフのときでも計算が続行されます。</string>
+    <string name="bb_bg_battery">バッテリー使用を制限しない</string>
+    <string name="bb_bg_notif">通知を表示する（動作を維持するために必要）</string>
+    <string name="bb_bg_vendor">お使いのスマートフォンの設定で自動起動とバックグラウンドアクティビティを許可する</string>
+    <string name="bb_bg_allow">許可</string>
+    <string name="bb_bg_open">設定を開く</string>
+</resources>

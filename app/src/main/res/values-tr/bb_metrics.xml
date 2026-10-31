@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">Toplam kredi</string>
+    <string name="bb_metric_rac">Son ortalama kredi</string>
+    <string name="bb_metric_results">Tamamlanan geçerli görevler</string>
+    <string name="bb_metric_dp">Keraunos ayırt edilmiş puanlar bulundu</string>
+    <string name="bb_metric_sphinx_dp">Sphinx ayırt edilmiş puanlar bulundu</string>
+    <string name="bb_metric_potamos">Potamos parçaları tamamlandı</string>
+    <string name="bb_metric_hosts">Katkıda bulunan cihazlar</string>
+    <string name="bb_metric_age">Gönüllü olarak geçen günler</string>
+    <string name="bb_metric_gpu">Tamamlanan GPU görevleri</string>
+    <string name="bb_metric_platforms">Kullanılan farklı platformlar</string>
+    <string name="bb_metric_hours">Katkıda bulunulan hesaplama saatleri</string>
+    <string name="bb_metric_kampylos">Tamamlanan Kampylos sonuçları</string>
+    <string name="bb_metric_nostos">Nostos sonuçları tamamlandı</string>
+    <string name="bb_metric_phygas">Phygas sonuçları tamamlandı</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">총 크레딧</string>
+    <string name="bb_metric_rac">최근 평균 크레딧</string>
+    <string name="bb_metric_results">완료된 유효 작업</string>
+    <string name="bb_metric_dp">케라노스 배지 포인트 발견</string>
+    <string name="bb_metric_sphinx_dp">스핑크스 배지 포인트 발견</string>
+    <string name="bb_metric_potamos">포타모스 청크 완료</string>
+    <string name="bb_metric_hosts">기여 장치</string>
+    <string name="bb_metric_age">자원봉사 일수</string>
+    <string name="bb_metric_gpu">GPU 작업 완료</string>
+    <string name="bb_metric_platforms">사용된 플랫폼 수</string>
+    <string name="bb_metric_hours">기여 컴퓨팅 시간</string>
+    <string name="bb_metric_kampylos">캄필로스 결과 완료</string>
+    <string name="bb_metric_nostos">노스토스 결과 완료</string>
+    <string name="bb_metric_phygas">피가스 결과 완료</string>
+</resources>

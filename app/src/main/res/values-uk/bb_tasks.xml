@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_tasks_all">Завдання</string>
+    <string name="bb_due">Термін %1$s</string>
+    <string name="bb_task_running">Виконується</string>
+    <string name="bb_task_paused">Призупинено</string>
+    <string name="bb_task_waiting">Очікує виконання</string>
+    <string name="bb_task_downloading">Завантажується</string>
+    <string name="bb_task_uploading">Завантажується</string>
+    <string name="bb_task_ready">Готово, звіт</string>
+    <string name="bb_task_failed">Помилка</string>
+</resources>

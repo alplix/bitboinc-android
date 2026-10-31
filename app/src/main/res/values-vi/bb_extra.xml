@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">Sử dụng GPU</string>
+    <string name="bb_gpu_hint">Chỉ các ứng dụng hỗ trợ GPU của điện thoại bạn mới sử dụng được.</string>
+    <string name="bb_refresh">Làm mới</string>
+    <string name="bb_refreshed">Đã làm mới</string>
+    <string name="bb_bg_title">Cho phép BitBOINC chạy nền</string>
+    <string name="bb_bg_intro">Android dừng các ứng dụng chạy nền để tiết kiệm pin. Cho phép những điều này để tính toán tiếp tục khi màn hình tắt.</string>
+    <string name="bb_bg_battery">Sử dụng pin không giới hạn</string>
+    <string name="bb_bg_notif">Hiển thị thông báo (cần thiết để tiếp tục hoạt động)</string>
+    <string name="bb_bg_vendor">Cho phép tự khởi động và hoạt động nền trong cài đặt của điện thoại bạn</string>
+    <string name="bb_bg_allow">Cho phép</string>
+    <string name="bb_bg_open">Mở cài đặt</string>
+</resources>

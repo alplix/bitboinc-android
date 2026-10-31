@@ -1,0 +1,3 @@
+-keep class edu.berkeley.boinc.rpc.** { *; }
+-keep class edu.berkeley.boinc.client.** { *; }
+-keepclassmembers class * implements android.os.Parcelable { public static final ** CREATOR; }

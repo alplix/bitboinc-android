@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">合計クレジット</string>
+    <string name="bb_metric_rac">直近平均クレジット</string>
+    <string name="bb_metric_results">完了した有効なタスク</string>
+    <string name="bb_metric_dp">Keraunosの特別ポイント発見数</string>
+    <string name="bb_metric_sphinx_dp">Sphinxの特別ポイント発見数</string>
+    <string name="bb_metric_potamos">Potamosチャンク完了数</string>
+    <string name="bb_metric_hosts">貢献デバイス数</string>
+    <string name="bb_metric_age">ボランティアとしての日数</string>
+    <string name="bb_metric_gpu">GPUタスク完了数</string>
+    <string name="bb_metric_platforms">使用したプラットフォーム数</string>
+    <string name="bb_metric_hours">貢献した計算時間</string>
+    <string name="bb_metric_kampylos">Kampylos結果完了数</string>
+    <string name="bb_metric_nostos">ノストス結果が完了しました</string>
+    <string name="bb_metric_phygas">フィガス結果が完了しました</string>
+</resources>

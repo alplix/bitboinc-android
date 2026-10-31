@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">Folosește GPU</string>
+    <string name="bb_gpu_hint">Doar aplicațiile care suportă GPU-ul telefonului tău îl vor folosi.</string>
+    <string name="bb_refresh">Actualizează</string>
+    <string name="bb_refreshed">Actualizat</string>
+    <string name="bb_bg_title">Permite BitBOINC să funcționeze în fundal</string>
+    <string name="bb_bg_intro">Android oprește aplicațiile din fundal pentru a economisi bateria. Permite acestea pentru ca calculul să continue când ecranul este oprit.</string>
+    <string name="bb_bg_battery">Utilizare neîngrădită a bateriei</string>
+    <string name="bb_bg_notif">Afișează notificări (necesar pentru a continua să funcționeze)</string>
+    <string name="bb_bg_vendor">Permite pornirea automată și activitatea în fundal în propriile setări ale telefonului tău</string>
+    <string name="bb_bg_allow">Permite</string>
+    <string name="bb_bg_open">Deschide setările</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">Crédito total</string>
+    <string name="bb_metric_rac">Crédito promedio reciente</string>
+    <string name="bb_metric_results">Tareas válidas completadas</string>
+    <string name="bb_metric_dp">Puntos distinguidos de Keraunos encontrados</string>
+    <string name="bb_metric_sphinx_dp">Puntos distinguidos de Sphinx encontrados</string>
+    <string name="bb_metric_potamos">Fragmentos de Potamos completados</string>
+    <string name="bb_metric_hosts">Dispositivos que contribuyen</string>
+    <string name="bb_metric_age">Días como voluntario</string>
+    <string name="bb_metric_gpu">Tareas de GPU completadas</string>
+    <string name="bb_metric_platforms">Plataformas diferentes utilizadas</string>
+    <string name="bb_metric_hours">Horas de cómputo aportadas</string>
+    <string name="bb_metric_kampylos">Resultados de Kampylos completados</string>
+    <string name="bb_metric_nostos">Resultados de Nostos completados</string>
+    <string name="bb_metric_phygas">Resultados de Phygas completados</string>
+</resources>

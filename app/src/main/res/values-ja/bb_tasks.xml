@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_tasks_all">タスク</string>
+    <string name="bb_due">期限 %1$s</string>
+    <string name="bb_task_running">実行中</string>
+    <string name="bb_task_paused">一時停止中</string>
+    <string name="bb_task_waiting">実行待ち</string>
+    <string name="bb_task_downloading">ダウンロード中</string>
+    <string name="bb_task_uploading">アップロード中</string>
+    <string name="bb_task_ready">完了、報告中</string>
+    <string name="bb_task_failed">失敗</string>
+</resources>

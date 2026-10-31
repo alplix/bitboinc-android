@@ -1,0 +1,15 @@
+<projects>
+    <project>
+        <name>BitBOINC</name>
+        <url>https://bitboinc.athena.org.tr/</url>
+        <general_area>Astronomy, Physics, Mathematics</general_area>
+        <specific_area>Gravitational microlensing, interstellar objects, runaway stars</specific_area>
+        <description>Independent volunteer computing project: astronomy and open mathematical searches.</description>
+        <home>Alperen Yavuz</home>
+        <platforms>
+            <name>aarch64-android-linux-gnu</name>
+            <name>arm-android-linux-gnu</name>
+            <name>x86_64-android-linux-gnu</name>
+        </platforms>
+    </project>
+</projects>

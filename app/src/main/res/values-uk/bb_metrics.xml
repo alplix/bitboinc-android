@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">Загальний кредит</string>
+    <string name="bb_metric_rac">Середній нещодавній кредит</string>
+    <string name="bb_metric_results">Виконані валідні завдання</string>
+    <string name="bb_metric_dp">Знайдені відмінні точки Керауна</string>
+    <string name="bb_metric_sphinx_dp">Знайдені відмінні точки Сфінкса</string>
+    <string name="bb_metric_potamos">Виконані частини Потамоса</string>
+    <string name="bb_metric_hosts">Внесок пристроїв</string>
+    <string name="bb_metric_age">Дні як волонтер</string>
+    <string name="bb_metric_gpu">Виконані завдання GPU</string>
+    <string name="bb_metric_platforms">Використані різні платформи</string>
+    <string name="bb_metric_hours">Нараховані години обчислень</string>
+    <string name="bb_metric_kampylos">Виконані результати Кампілоса</string>
+    <string name="bb_metric_nostos">Результати Ностос завершено</string>
+    <string name="bb_metric_phygas">Результати Фігас завершено</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">GPU\'yu kullan</string>
+    <string name="bb_gpu_hint">Yalnızca telefonunuzun GPU\'sunu destekleyen uygulamalar onu kullanacaktır.</string>
+    <string name="bb_refresh">Yenile</string>
+    <string name="bb_refreshed">Yenilendi</string>
+    <string name="bb_bg_title">BitBOINC\'in arka planda çalışmasına izin ver</string>
+    <string name="bb_bg_intro">Android, pil tasarrufu için arka plan uygulamalarını durdurur. Ekran kapalıyken hesaplamaların devam etmesi için bunları etkinleştirin.</string>
+    <string name="bb_bg_battery">Sınırsız pil kullanımı</string>
+    <string name="bb_bg_notif">Bildirimleri göster (çalışmaya devam etmesi için gerekli)</string>
+    <string name="bb_bg_vendor">Telefonunuzun kendi ayarlarında otomatik başlatmaya ve arka plan etkinliğine izin ver</string>
+    <string name="bb_bg_allow">İzin ver</string>
+    <string name="bb_bg_open">Ayarları aç</string>
+</resources>

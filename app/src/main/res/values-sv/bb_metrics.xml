@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">Total kredit</string>
+    <string name="bb_metric_rac">Senaste genomsnittliga kredit</string>
+    <string name="bb_metric_results">Valida uppgifter slutförda</string>
+    <string name="bb_metric_dp">Keraunos distinkta poäng hittade</string>
+    <string name="bb_metric_sphinx_dp">Sphinx distinkta poäng hittade</string>
+    <string name="bb_metric_potamos">Potamos-bitar slutförda</string>
+    <string name="bb_metric_hosts">Bidragande enheter</string>
+    <string name="bb_metric_age">Dagar som volontär</string>
+    <string name="bb_metric_gpu">GPU-uppgifter slutförda</string>
+    <string name="bb_metric_platforms">Olika plattformar använda</string>
+    <string name="bb_metric_hours">Beräkningstimmar bidragna</string>
+    <string name="bb_metric_kampylos">Kampylos-resultat slutförda</string>
+    <string name="bb_metric_nostos">Nostos-resultat slutförda</string>
+    <string name="bb_metric_phygas">Phygas-resultat slutförda</string>
+</resources>

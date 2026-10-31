@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_use_gpu">Użyj GPU</string>
+    <string name="bb_gpu_hint">Tylko aplikacje obsługujące GPU telefonu zostaną nim wykorzystane.</string>
+    <string name="bb_refresh">Odśwież</string>
+    <string name="bb_refreshed">Odświeżono</string>
+    <string name="bb_bg_title">Pozwól BitBOINC działać w tle</string>
+    <string name="bb_bg_intro">Android zatrzymuje aplikacje w tle, aby oszczędzać baterię. Pozwól na to, aby obliczenia trwały, gdy ekran jest wyłączony.</string>
+    <string name="bb_bg_battery">Nieograniczone zużycie baterii</string>
+    <string name="bb_bg_notif">Pokaż powiadomienia (potrzebne do działania)</string>
+    <string name="bb_bg_vendor">Pozwól na automatyczne uruchamianie i działanie w tle w ustawieniach telefonu</string>
+    <string name="bb_bg_allow">Pozwól</string>
+    <string name="bb_bg_open">Otwórz ustawienia</string>
+</resources>

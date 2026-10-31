@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bb_metric_credit">Tổng tín dụng</string>
+    <string name="bb_metric_rac">Tín dụng trung bình gần đây</string>
+    <string name="bb_metric_results">Nhiệm vụ hợp lệ đã hoàn thành</string>
+    <string name="bb_metric_dp">Điểm nổi bật Keraunos tìm thấy</string>
+    <string name="bb_metric_sphinx_dp">Điểm nổi bật Sphinx tìm thấy</string>
+    <string name="bb_metric_potamos">Các khối Potamos đã hoàn thành</string>
+    <string name="bb_metric_hosts">Thiết bị đóng góp</string>
+    <string name="bb_metric_age">Số ngày làm tình nguyện viên</string>
+    <string name="bb_metric_gpu">Nhiệm vụ GPU đã hoàn thành</string>
+    <string name="bb_metric_platforms">Các nền tảng khác nhau đã sử dụng</string>
+    <string name="bb_metric_hours">Giờ tính toán đã đóng góp</string>
+    <string name="bb_metric_kampylos">Kết quả Kampylos đã hoàn thành</string>
+    <string name="bb_metric_nostos">Kết quả Nostos đã hoàn tất</string>
+    <string name="bb_metric_phygas">Kết quả Phygas đã hoàn tất</string>
+</resources>
