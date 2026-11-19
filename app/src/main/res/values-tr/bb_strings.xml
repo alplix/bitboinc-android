@@ -118,4 +118,22 @@
     <string name="bb_proj_remove">Kaldır</string>
     <string name="bb_proj_remove_q">%1$s bu cihazdan kaldırılsın mı? Bitmemiş görevleri silinir.</string>
     <string name="bb_proj_note">Her projenin her telefon için uygulaması yoktur. Proje iş göndermezse kaldırın.</string>
+    <string name="bb_tab_devices">Cihazlar</string>
+    <string name="bb_title_devices">Cihazlarım</string>
+    <string name="bb_dev_intro">BOINC çalıştıran diğer bilgisayarlarınızı izleyin ve yönetin.</string>
+    <string name="bb_dev_checking">Kontrol ediliyor…</string>
+    <string name="bb_dev_running">%1$d görev hesaplıyor · %2$d%%</string>
+    <string name="bb_dev_wrong_pw">Parola yanlış</string>
+    <string name="bb_dev_offline">Cihaza ulaşılamıyor</string>
+    <string name="bb_dev_pause">Duraklat</string>
+    <string name="bb_dev_resume">Sürdür</string>
+    <string name="bb_dev_update">Projeleri güncelle</string>
+    <string name="bb_dev_remove">Kaldır</string>
+    <string name="bb_dev_remove_q">%1$s listeden kaldırılsın mı? Cihazın kendisi değişmez.</string>
+    <string name="bb_dev_add">Cihaz ekle</string>
+    <string name="bb_dev_name">Ad (örn. Salon bilgisayarı)</string>
+    <string name="bb_dev_host">Adres (IP veya ana makine adı)</string>
+    <string name="bb_dev_port">Bağlantı noktası</string>
+    <string name="bb_dev_pw">BOINC parolası (gui_rpc_auth.cfg)</string>
+    <string name="bb_dev_howto">O bilgisayarda BOINC uzaktan denetime izin vermeli: BOINC Manager > Seçenekler > Bilgi işlem tercihleri > Diğer > uzak bağlantılara izin ver, ya da bu telefonun adresini remote_hosts.cfg dosyasına yazın. Parola gui_rpc_auth.cfg içindeki metindir. İki cihaz aynı ağda olmalı. Parola yalnızca bu telefonda saklanır.</string>
 </resources>

@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         col.addView(holder, LinearLayout.LayoutParams(-1, 0, 1f))
 
         screens = listOf(
-            HomeScreen(this, pal), StatsScreen(this, pal), ScienceScreen(this, pal), BadgesScreen(this, pal),
+            HomeScreen(this, pal), StatsScreen(this, pal), ScienceScreen(this, pal), BadgesScreen(this, pal), DevicesScreen(this, pal),
             SettingsScreen(this, pal, { id -> Themes.set(this, id); recreate() }, { logout() })
         )
         screens.forEach { s -> holder.addView(s.root, FrameLayout.LayoutParams(-1, -1)); s.onRefresh = { refresh(false) } }
@@ -90,8 +90,8 @@ class MainActivity : AppCompatActivity() {
         bgCard = Background.Card(this, pal)
         (screens[0] as HomeScreen).addTop(bgCard.view)
 
-        val icons = listOf(R.drawable.bb_ic_home, R.drawable.bb_ic_chart, R.drawable.bb_ic_science, R.drawable.bb_ic_award, R.drawable.bb_ic_settings)
-        val names = listOf(R.string.bb_tab_home, R.string.bb_tab_stats, R.string.bb_tab_science, R.string.bb_tab_badges, R.string.bb_tab_settings)
+        val icons = listOf(R.drawable.bb_ic_home, R.drawable.bb_ic_chart, R.drawable.bb_ic_science, R.drawable.bb_ic_award, R.drawable.bb_ic_devices, R.drawable.bb_ic_settings)
+        val names = listOf(R.string.bb_tab_home, R.string.bb_tab_stats, R.string.bb_tab_science, R.string.bb_tab_badges, R.string.bb_tab_devices, R.string.bb_tab_settings)
         val nav = hbox().apply { setBackgroundColor(pal.card); setPadding(0, dp(6), 0, dp(6)); gravity = Gravity.CENTER }
         navItems = icons.indices.map { i ->
             val cell = vbox().apply { gravity = Gravity.CENTER; setPadding(0, dp(2), 0, dp(2)); setOnClickListener { select(i) } }
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
             val c = if (k == i) pal.accent else pal.muted
             iv.setColorFilter(c); tv.setTextColor(c)
         }
-        titleView.text = listOf(R.string.bb_title_home, R.string.bb_title_stats, R.string.bb_title_science, R.string.bb_title_badges, R.string.bb_title_settings).let { getString(it[i]) }
+        titleView.text = listOf(R.string.bb_title_home, R.string.bb_title_stats, R.string.bb_title_science, R.string.bb_title_badges, R.string.bb_title_devices, R.string.bb_title_settings).let { getString(it[i]) }
     }
 
     override fun onResume() {

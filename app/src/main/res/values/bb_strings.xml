@@ -172,4 +172,22 @@
     <string name="bb_proj_remove">Remove</string>
     <string name="bb_proj_remove_q">Remove %1$s from this device? Its unfinished tasks will be dropped.</string>
     <string name="bb_proj_note">Not every project has apps for every phone. If a project sends no work, remove it.</string>
+    <string name="bb_tab_devices">Devices</string>
+    <string name="bb_title_devices">My devices</string>
+    <string name="bb_dev_intro">Watch and control your other computers that run BOINC.</string>
+    <string name="bb_dev_checking">Checking…</string>
+    <string name="bb_dev_running">Computing %1$d tasks · %2$d%%</string>
+    <string name="bb_dev_wrong_pw">Wrong password</string>
+    <string name="bb_dev_offline">Cannot reach this device</string>
+    <string name="bb_dev_pause">Pause</string>
+    <string name="bb_dev_resume">Resume</string>
+    <string name="bb_dev_update">Update projects</string>
+    <string name="bb_dev_remove">Remove</string>
+    <string name="bb_dev_remove_q">Remove %1$s from this list? The device itself is not changed.</string>
+    <string name="bb_dev_add">Add a device</string>
+    <string name="bb_dev_name">Name (for example Living room PC)</string>
+    <string name="bb_dev_host">Address (IP or host name)</string>
+    <string name="bb_dev_port">Port</string>
+    <string name="bb_dev_pw">BOINC password (gui_rpc_auth.cfg)</string>
+    <string name="bb_dev_howto">On that computer BOINC must allow remote control: in BOINC Manager choose Options > Computing preferences > Other > allow remote connections, or put the address of this phone into remote_hosts.cfg. The password is the text in gui_rpc_auth.cfg. Both devices must be on the same network. The password stays on this phone only.</string>
 </resources>
