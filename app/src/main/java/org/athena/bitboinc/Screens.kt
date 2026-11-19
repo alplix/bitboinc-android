@@ -86,6 +86,19 @@ fun metricLabel(c: Context, key: String, fallback: String): String {
 }
 
 
+fun isOverdue(t: Result): Boolean = t.reportDeadline > 0 && t.reportDeadline.toLong() * 1000 < System.currentTimeMillis() && taskRank(t) <= 3
+
+/** Ask, then abort the given tasks through the client (like "Abort task" in the desktop BOINC Manager). */
+fun confirmAbort(ctx: android.content.Context, tasks: List<Result>, message: String) {
+    val act = ctx as? android.app.Activity ?: return
+    androidx.appcompat.app.AlertDialog.Builder(act)
+        .setMessage(message)
+        .setNegativeButton(android.R.string.cancel, null)
+        .setPositiveButton(R.string.bb_abort) { _, _ ->
+            Hub.io { m -> tasks.forEach { m.resultOp(edu.berkeley.boinc.rpc.RpcClient.RESULT_ABORT, it.projectURL, it.name) } }
+        }.show()
+}
+
 /** 0 running, 1 paused, 2 waiting to run, 3 downloading, 4 uploading, 5 ready to report, 6 failed. */
 fun taskRank(t: Result): Int = when {
     t.state == edu.berkeley.boinc.utils.RESULT_COMPUTE_ERROR || t.state == edu.berkeley.boinc.utils.RESULT_UPLOAD_FAILED || t.state == edu.berkeley.boinc.utils.RESULT_ABORTED -> 6
@@ -174,11 +187,18 @@ class HomeScreen(ctx: Context, p: Palette) : Screen(ctx, p) {
         suppress = true; sw?.isChecked = s.computing != edu.berkeley.boinc.client.ClientStatus.COMPUTING_STATUS_NEVER; suppress = false
 
         val ordered = s.tasks.sortedWith(compareBy<Result>({ taskRank(it) }, { it.reportDeadline })).take(40)
-        val key = ordered.joinToString { it.name + taskRank(it) + (it.fractionDone * 100).toInt() }
+        val key = ordered.joinToString { it.name + taskRank(it) + (it.fractionDone * 100).toInt() } + "/" + s.tasks.count { isOverdue(it) }
         if (key != lastTaskKey) {
             lastTaskKey = key
             taskBox.removeAllViews()
             if (ordered.isEmpty()) taskBox.addView(ctx.label(p, s(R.string.bb_no_tasks), 13f, muted = true))
+            val overdue = s.tasks.filter { isOverdue(it) }
+            if (overdue.isNotEmpty()) {
+                val b = ctx.label(p, s(R.string.bb_abort_overdue, overdue.size), 13f, color = p.accent, bold = true)
+                b.setPadding(0, ctx.dp(4), 0, ctx.dp(8))
+                b.setOnClickListener { confirmAbort(ctx, overdue, s(R.string.bb_abort_overdue_q, overdue.size)) }
+                taskBox.addView(b, matchWrap())
+            }
             ordered.forEach { t ->
                 val rank = taskRank(t)
                 val r = ctx.vbox().apply { setPadding(0, ctx.dp(5), 0, ctx.dp(7)) }
@@ -187,6 +207,12 @@ class HomeScreen(ctx: Context, p: Palette) : Screen(ctx, p) {
                 l.addView(ctx.label(p, appName(t), 14f, bold = true), weight())
                 l.addView(ctx.label(p, s(taskLabel(rank)), 11f, color = if (rank == 0) p.accent else p.muted, bold = rank == 0))
                 r.addView(l, matchWrap())
+                if (rank <= 2) {
+                    val ab = ctx.label(p, s(R.string.bb_abort), 11f, color = p.accent, bold = true)
+                    ab.setPadding(ctx.dp(42), ctx.dp(2), 0, ctx.dp(2))
+                    ab.setOnClickListener { confirmAbort(ctx, listOf(t), s(R.string.bb_abort_q)) }
+                    r.addView(ab, matchWrap())
+                }
                 if (rank <= 1) {   // running or paused: progress
                     r.addView(BarView(ctx, p).also { it.value = t.fractionDone }, matchWrap().apply { topMargin = ctx.dp(6) })
                     r.addView(ctx.label(p, "${(t.fractionDone * 100).toInt()}% \u00b7 " + fmtDur(ctx, t.estimatedCPUTimeRemaining), 11f, muted = true).also { it.setPadding(0, ctx.dp(3), 0, 0) })

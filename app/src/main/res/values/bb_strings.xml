@@ -148,4 +148,8 @@
     <string name="bb_task_ready">Done, reporting</string>
     <string name="bb_task_failed">Failed</string>
     <string name="bb_metric_android">Android app results completed</string>
+    <string name="bb_abort">Abort</string>
+    <string name="bb_abort_q">Abort this task? Its work is discarded and it cannot be undone.</string>
+    <string name="bb_abort_overdue">Abort %1$d overdue tasks</string>
+    <string name="bb_abort_overdue_q">Abort %1$d tasks whose deadline has passed? They cannot be undone.</string>
 </resources>
