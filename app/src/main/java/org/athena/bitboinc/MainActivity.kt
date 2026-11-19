@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         override fun run() {
             val auth = getSharedPreferences("bb", MODE_PRIVATE).getString("auth", null)
             if (auth != null) Thread {
-                val j = Api.fetch(auth, Locale.getDefault().language, Hub.snap?.projects?.firstOrNull()?.hostId ?: 0, edu.berkeley.boinc.BuildConfig.VERSION_NAME)
+                val j = Api.fetch(auth, Locale.getDefault().language, Hub.snap?.home()?.hostId ?: 0, edu.berkeley.boinc.BuildConfig.VERSION_NAME)
                 if (j != null) handler.post { api = j; screens.forEach { it.updateApi(j) } }
             }.start()
             handler.postDelayed(this, 120000)

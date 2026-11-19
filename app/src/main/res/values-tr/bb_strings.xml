@@ -24,7 +24,7 @@
     <string name="bb_news">Haberler</string>
     <string name="bb_running">çalışıyor</string>
     <string name="bb_starting">Motor başlatılıyor…</string>
-    <string name="bb_today">Bugün %1$s için hesaplama yaptınız</string>
+    <string name="bb_today">Cihazınız bugün %1$s CPU süresi çalıştı</string>
     <string name="bb_no_tasks">Şu anda çalışan bir görev yok.</string>
     <string name="bb_waiting">%1$d daha bekleniyor</string>
     <string name="bb_no_news">Henüz haber yok.</string>
@@ -98,4 +98,24 @@
     <string name="bb_register_failed">Hesap oluşturulamadı.</string>
     <string name="bb_login_failed">Yanlış e-posta veya şifre.</string>
     <string name="bb_attach_failed">Oturum açıldı, ancak proje eklenemedi.</string>
+    <string name="bb_sort_smart">Akıllı</string>
+    <string name="bb_sort_progress">İlerleme</string>
+    <string name="bb_sort_received">En yeni</string>
+    <string name="bb_buffer">Cihazda tutulan iş</string>
+    <string name="bb_buffer_hint">Düşük = cihazda daha az bekleyen görev. Cihazı başka işler için de kullanıyorsanız iyi olur.</string>
+    <string name="bb_projects">Projeler</string>
+    <string name="bb_proj_required">Zorunlu</string>
+    <string name="bb_proj_add">Proje ekle</string>
+    <string name="bb_proj_add_hint">Projenin web adresini yazın. BitBOINC onunla birlikte çalışmaya devam eder.</string>
+    <string name="bb_proj_url">Proje adresi (örn. ornek.org/proje)</string>
+    <string name="bb_proj_email">E-posta</string>
+    <string name="bb_proj_pass">Parola</string>
+    <string name="bb_proj_new">Orada henüz hesabım yok</string>
+    <string name="bb_proj_username">Bir kullanıcı adı seçin</string>
+    <string name="bb_proj_ok">%1$s eklendi</string>
+    <string name="bb_proj_fail">Bu projede oturum açılamadı</string>
+    <string name="bb_proj_unreachable">Projeye ulaşılamadı. Adresi kontrol edin.</string>
+    <string name="bb_proj_remove">Kaldır</string>
+    <string name="bb_proj_remove_q">%1$s bu cihazdan kaldırılsın mı? Bitmemiş görevleri silinir.</string>
+    <string name="bb_proj_note">Her projenin her telefon için uygulaması yoktur. Proje iş göndermezse kaldırın.</string>
 </resources>

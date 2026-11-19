@@ -434,7 +434,11 @@ class Monitor : LifecycleService() {
                 "readClientStatus(): computation enabled: $computing"
             )
 
-            if (clientStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) org.athena.bitboinc.Daily.tick(this, clientStatusInterval / 1000.0)
+            if (clientStatus.computingStatus == ClientStatus.COMPUTING_STATUS_COMPUTING) {
+                // CPU time, not calendar time: every task that is executing counts for the whole interval
+                val running = try { clientStatus.getTasks(0, 200, true).count { it.activeTaskState == edu.berkeley.boinc.utils.PROCESS_EXECUTING } } catch (e: Exception) { 1 }
+                org.athena.bitboinc.Daily.tick(this, clientStatusInterval / 1000.0 * running.coerceAtLeast(1))
+            }
             clientStatus.setWifiLock(computing)
             clientStatus.setWakeLock(computing)
             // stay a foreground service whenever computing is switched on (also while suspended for charging/Wi-Fi/

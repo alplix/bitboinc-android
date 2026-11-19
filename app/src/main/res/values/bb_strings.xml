@@ -28,7 +28,7 @@
     <string name="bb_news">News</string>
     <string name="bb_running">running</string>
     <string name="bb_starting">Starting the engine…</string>
-    <string name="bb_today">You computed for %1$s today</string>
+    <string name="bb_today">Your device worked %1$s of CPU time today</string>
     <string name="bb_no_tasks">No task is running right now.</string>
     <string name="bb_waiting">%1$d more waiting</string>
     <string name="bb_no_news">No news yet.</string>
@@ -152,4 +152,24 @@
     <string name="bb_abort_q">Abort this task? Its work is discarded and it cannot be undone.</string>
     <string name="bb_abort_overdue">Abort %1$d overdue tasks</string>
     <string name="bb_abort_overdue_q">Abort %1$d tasks whose deadline has passed? They cannot be undone.</string>
+    <string name="bb_sort_smart">Smart</string>
+    <string name="bb_sort_progress">Progress</string>
+    <string name="bb_sort_received">Newest</string>
+    <string name="bb_buffer">Work kept on this device</string>
+    <string name="bb_buffer_hint">Lower = fewer tasks waiting on the device. Good if you also use it for other things.</string>
+    <string name="bb_projects">Projects</string>
+    <string name="bb_proj_required">Required</string>
+    <string name="bb_proj_add">Add a project</string>
+    <string name="bb_proj_add_hint">Type the project\'s web address. BitBOINC keeps running next to it.</string>
+    <string name="bb_proj_url">Project address (for example example.org/project)</string>
+    <string name="bb_proj_email">Email</string>
+    <string name="bb_proj_pass">Password</string>
+    <string name="bb_proj_new">I do not have an account there yet</string>
+    <string name="bb_proj_username">Choose a user name</string>
+    <string name="bb_proj_ok">%1$s was added</string>
+    <string name="bb_proj_fail">Could not sign in to that project</string>
+    <string name="bb_proj_unreachable">Could not reach that project. Check the address.</string>
+    <string name="bb_proj_remove">Remove</string>
+    <string name="bb_proj_remove_q">Remove %1$s from this device? Its unfinished tasks will be dropped.</string>
+    <string name="bb_proj_note">Not every project has apps for every phone. If a project sends no work, remove it.</string>
 </resources>

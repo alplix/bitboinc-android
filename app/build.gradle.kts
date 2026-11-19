@@ -22,8 +22,8 @@ android {
         applicationId = "org.athena.bitboinc"
         minSdk = 26
         targetSdk = 28          // BOINC's client runs from app data; API 29+ forbids executing files there
-        versionCode = 10
-        versionName = "0.1.9"
+        versionCode = 11
+        versionName = "0.2.0"
         resourceConfigurations += listOf("en", "tr", "de", "fr", "es", "it", "pt-rBR", "ru", "pl", "nl", "uk", "cs", "ro", "sv", "ja", "ko", "zh-rCN", "vi")
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64") }
     }

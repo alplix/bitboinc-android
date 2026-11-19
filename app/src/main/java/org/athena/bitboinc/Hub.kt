@@ -32,6 +32,10 @@ import java.util.concurrent.TimeUnit
 
 const val PROJECT_URL = "https://bitboinc.athena.org.tr/"
 
+/** BitBOINC is always attached and cannot be removed; other projects may be added next to it. */
+fun isHome(p: Project): Boolean = p.masterURL.contains("bitboinc.athena.org.tr")
+fun Snapshot.home(): Project? = projects.firstOrNull { isHome(it) } ?: projects.firstOrNull()
+
 class Sys(
     val cpuPct: Float,          // share of all cores used by BitBOINC's processes
     val cores: Int,

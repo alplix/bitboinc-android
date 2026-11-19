@@ -137,6 +137,9 @@ class HomeScreen(ctx: Context, p: Palette) : Screen(ctx, p) {
     private var sw: Switch? = null
     private var suppress = false
     private var lastTaskKey = ""
+    private val sortPrefs = ctx.getSharedPreferences("bb", Context.MODE_PRIVATE)
+    private var sortMode = sortPrefs.getInt("task_sort", 0)
+    private val sortRow = ctx.hbox()
 
     init {
         val hero = ctx.card(p).apply { gravity = Gravity.CENTER_HORIZONTAL }
@@ -165,9 +168,22 @@ class HomeScreen(ctx: Context, p: Palette) : Screen(ctx, p) {
         content.addView(title(s(R.string.bb_next_badge)))
         content.addView(ctx.card(p).apply { addView(nextBadge) })
         content.addView(title(s(R.string.bb_tasks_all)))
-        content.addView(ctx.card(p).apply { addView(taskBox) })
+        content.addView(ctx.card(p).apply { addView(sortRow, matchWrap().apply { bottomMargin = ctx.dp(6) }); addView(taskBox) })
+        drawSort()
         content.addView(title(s(R.string.bb_news)))
         content.addView(ctx.card(p).apply { addView(newsBox) })
+    }
+
+    private fun drawSort() {
+        sortRow.removeAllViews()
+        listOf(R.string.bb_sort_smart, R.string.bb_sort_progress, R.string.bb_sort_received).forEachIndexed { i, r ->
+            val on = i == sortMode
+            val chip = ctx.label(p, s(r), 12f, color = if (on) p.accent else p.muted, bold = on)
+            chip.setPadding(ctx.dp(10), ctx.dp(6), ctx.dp(10), ctx.dp(6))
+            chip.background = rounded(0, ctx.dp(14).toFloat(), if (on) p.accent else p.muted, ctx.dp(1))
+            chip.setOnClickListener { sortMode = i; sortPrefs.edit().putInt("task_sort", i).apply(); lastTaskKey = ""; drawSort(); Hub.snap?.let { update(it) } }
+            sortRow.addView(chip, android.widget.LinearLayout.LayoutParams(-2, -2).apply { rightMargin = ctx.dp(6) })
+        }
     }
 
     fun addTop(v: View) { content.addView(v, 0) }
@@ -181,13 +197,17 @@ class HomeScreen(ctx: Context, p: Palette) : Screen(ctx, p) {
         desc.text = s.desc
         val secs = Daily.seconds(ctx, 0)
         today.text = s(R.string.bb_today, fmtDur(ctx, secs.toDouble()))
-        val prj = s.projects.firstOrNull()
+        val prj = s.home()
         credit.text = prj?.let { fmtNum(it.userTotalCredit) } ?: "-"
         rac.text = prj?.let { fmtNum(it.userExpAvgCredit) } ?: "-"
         suppress = true; sw?.isChecked = s.computing != edu.berkeley.boinc.client.ClientStatus.COMPUTING_STATUS_NEVER; suppress = false
 
-        val ordered = s.tasks.sortedWith(compareBy<Result>({ taskRank(it) }, { it.reportDeadline })).take(40)
-        val key = ordered.joinToString { it.name + taskRank(it) + (it.fractionDone * 100).toInt() } + "/" + s.tasks.count { isOverdue(it) }
+        val ordered = when (sortMode) {
+            1 -> s.tasks.sortedByDescending { it.fractionDone }
+            2 -> s.tasks.sortedByDescending { it.receivedTime }
+            else -> s.tasks.sortedWith(compareBy<Result>({ taskRank(it) }, { it.reportDeadline }))
+        }.take(40)
+        val key = sortMode.toString() + ordered.joinToString { it.name + taskRank(it) + (it.fractionDone * 100).toInt() } + "/" + s.tasks.count { isOverdue(it) }
         if (key != lastTaskKey) {
             lastTaskKey = key
             taskBox.removeAllViews()
@@ -204,7 +224,7 @@ class HomeScreen(ctx: Context, p: Palette) : Screen(ctx, p) {
                 val r = ctx.vbox().apply { setPadding(0, ctx.dp(5), 0, ctx.dp(7)) }
                 val l = ctx.hbox()
                 l.addView(AppIconView(ctx, p, scienceId(appName(t))), android.widget.LinearLayout.LayoutParams(ctx.dp(32), ctx.dp(32)).apply { rightMargin = ctx.dp(10) })
-                l.addView(ctx.label(p, appName(t), 14f, bold = true), weight())
+                l.addView(ctx.label(p, appName(t) + (if (t.projectURL.contains("bitboinc.athena.org.tr")) "" else " \u00b7 " + (t.project?.projectName ?: Hub.snap?.projects?.firstOrNull { it.masterURL == t.projectURL }?.projectName ?: "")), 14f, bold = true), weight())
                 l.addView(ctx.label(p, s(taskLabel(rank)), 11f, color = if (rank == 0) p.accent else p.muted, bold = rank == 0))
                 r.addView(l, matchWrap())
                 if (rank <= 2) {
@@ -424,11 +444,78 @@ class SettingsScreen(ctx: Context, p: Palette, private val onTheme: (String) -> 
     private var built = false
     private var update: JSONObject? = null
 
+    private var projCard: android.widget.LinearLayout? = null
+    private var projKey = ""
+
     override fun update(s: Snapshot) {
-        if (built || s.prefs == null) return
-        built = true
-        build(s)
+        if (s.prefs == null) return
+        if (!built) { built = true; build(s) }
+        val k = s.projects.joinToString { it.masterURL + it.projectName }
+        if (k != projKey) { projKey = k; drawProjects(s) }
     }
+
+    private fun drawProjects(s: Snapshot) {
+        val c = projCard ?: return
+        c.removeAllViews()
+        s.projects.sortedBy { if (isHome(it)) 0 else 1 }.forEach { pr ->
+            val r = ctx.hbox().apply { setPadding(0, ctx.dp(6), 0, ctx.dp(6)) }
+            r.addView(ctx.label(p, pr.projectName.ifBlank { pr.masterURL }, 14f, bold = isHome(pr)), weight())
+            if (isHome(pr)) r.addView(ctx.label(p, s(R.string.bb_proj_required), 11f, muted = true))
+            else {
+                val rm = ctx.label(p, s(R.string.bb_proj_remove), 12f, color = p.accent, bold = true)
+                rm.setOnClickListener {
+                    val act = ctx as? android.app.Activity ?: return@setOnClickListener
+                    androidx.appcompat.app.AlertDialog.Builder(act).setMessage(s(R.string.bb_proj_remove_q, pr.projectName))
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(R.string.bb_proj_remove) { _, _ -> Hub.io { m -> m.projectOp(edu.berkeley.boinc.rpc.RpcClient.PROJECT_DETACH, pr.masterURL) } }.show()
+                }
+                r.addView(rm)
+            }
+            c.addView(r, matchWrap())
+        }
+        c.addView(ctx.label(p, s(R.string.bb_proj_note), 11f, muted = true).also { it.setPadding(0, ctx.dp(6), 0, ctx.dp(8)) })
+        c.addView(button(s(R.string.bb_proj_add), false) { addProjectDialog() }, matchWrap())
+    }
+
+    private fun addProjectDialog() {
+        val act = ctx as? android.app.Activity ?: return
+        fun field(hint: String, type: Int) = android.widget.EditText(ctx).apply {
+            this.hint = hint; inputType = android.text.InputType.TYPE_CLASS_TEXT or type; maxLines = 1; setTextColor(p.text); setHintTextColor(p.muted)
+        }
+        val url = field(s(R.string.bb_proj_url), android.text.InputType.TYPE_TEXT_VARIATION_URI)
+        val email = field(s(R.string.bb_proj_email), android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
+        val pw = field(s(R.string.bb_proj_pass), android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD)
+        val user = field(s(R.string.bb_proj_username), 0).apply { visibility = View.GONE }
+        val newAcc = android.widget.CheckBox(ctx).apply { text = s(R.string.bb_proj_new); setTextColor(p.text); setOnCheckedChangeListener { _, on -> user.visibility = if (on) View.VISIBLE else View.GONE } }
+        val box = ctx.vbox().apply { setPadding(ctx.dp(20), ctx.dp(10), ctx.dp(20), 0) }
+        listOf<View>(url, email, pw, newAcc, user).forEach { box.addView(it, matchWrap()) }
+        val d = androidx.appcompat.app.AlertDialog.Builder(act).setTitle(R.string.bb_proj_add).setMessage(R.string.bb_proj_add_hint).setView(box)
+            .setNegativeButton(android.R.string.cancel, null).setPositiveButton(R.string.bb_proj_add, null).create()
+        d.setOnShowListener {
+            d.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                var u = url.text.toString().trim(); val e = email.text.toString().trim(); val w = pw.text.toString(); val n = user.text.toString().trim()
+                if (u.isEmpty() || e.isEmpty() || w.isEmpty() || (newAcc.isChecked && n.isEmpty())) { toast(s(R.string.bb_fill_all)); return@setOnClickListener }
+                if (!u.startsWith("http://") && !u.startsWith("https://")) u = "https://$u"
+                d.dismiss(); toast(s(R.string.bb_connecting))
+                Thread {
+                    val m = Hub.monitor
+                    try {
+                        val cfg = m?.getProjectConfigPolling(u)
+                        if (cfg == null || cfg.errorNum != 0) { toast(s(R.string.bb_proj_unreachable)); return@Thread }
+                        val purl = cfg.secureUrlIfAvailable ?: cfg.masterUrl
+                        val acc = edu.berkeley.boinc.rpc.AccountIn(purl, e, if (newAcc.isChecked) n else null, w, null, cfg.usesName)
+                        val out = if (newAcc.isChecked) m.createAccountPolling(acc) else m.lookupCredentials(acc)
+                        val key = out?.authenticator
+                        if (out == null || out.errorNum != 0 || key.isNullOrEmpty()) { toast(s(R.string.bb_proj_fail) + (out?.errorMsg?.let { "\n$it" } ?: "")); return@Thread }
+                        toast(if (m.attachProject(purl, cfg.name, key)) s(R.string.bb_proj_ok, cfg.name) else s(R.string.bb_attach_failed))
+                    } catch (ex: Exception) { toast(s(R.string.bb_proj_unreachable)) }
+                }.start()
+            }
+        }
+        d.show()
+    }
+
+    private fun toast(t: String) { android.os.Handler(android.os.Looper.getMainLooper()).post { android.widget.Toast.makeText(ctx, t, android.widget.Toast.LENGTH_LONG).show() } }
 
     private fun setPref(change: (edu.berkeley.boinc.rpc.GlobalPreferences) -> Unit) {
         val cur = Hub.snap?.prefs ?: return
@@ -499,13 +586,20 @@ class SettingsScreen(ctx: Context, p: Palette, private val onTheme: (String) -> 
         rc.addView(ctx.label(p, s(R.string.bb_gpu_hint), 11f, muted = true).also { it.setPadding(0, 0, 0, ctx.dp(4)) })
         rc.addView(slider(s(R.string.bb_cpu_cores), pr.maxNoOfCPUsPct.toInt().coerceIn(1, 100), 100, "%") { v -> setPref { it.maxNoOfCPUsPct = v.coerceAtLeast(1).toDouble() } })
         rc.addView(slider(s(R.string.bb_cpu_limit), pr.cpuUsageLimit.toInt().coerceIn(1, 100), 100, "%") { v -> setPref { it.cpuUsageLimit = v.coerceAtLeast(1).toDouble() } })
+        rc.addView(slider(s(R.string.bb_buffer), (pr.workBufMinDays * 24).toInt().coerceIn(0, 72), 72, " h") { v -> setPref { it.workBufMinDays = v / 24.0; it.workBufAdditionalDays = 0.0 } })
+        rc.addView(ctx.label(p, s(R.string.bb_buffer_hint), 11f, muted = true).also { it.setPadding(0, 0, 0, ctx.dp(4)) })
         rc.addView(slider(s(R.string.bb_min_battery), pr.batteryChargeMinPct.toInt().coerceIn(0, 100), 100, "%") { v -> setPref { it.batteryChargeMinPct = v.toDouble() } })
         rc.addView(slider(s(R.string.bb_max_temp), pr.batteryMaxTemperature.toInt().coerceIn(30, 60), 60, " °C") { v -> setPref { it.batteryMaxTemperature = v.coerceAtLeast(30).toDouble() } })
         content.addView(rc)
 
+        content.addView(title(s(R.string.bb_projects)))
+        projCard = ctx.card(p)
+        content.addView(projCard)
+        projKey = ""
+
         content.addView(title(s(R.string.bb_account)))
         val ac = ctx.card(p)
-        val prj = s.projects.firstOrNull()
+        val prj = s.home()
         ac.addView(rowKV(s(R.string.bb_user), prj?.userName ?: ctx.getSharedPreferences("bb", Context.MODE_PRIVATE).getString("email", "-") ?: "-"))
         ac.addView(button(s(R.string.bb_open_site), false) { ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PROJECT_URL + "home.php")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }, matchWrap().apply { topMargin = ctx.dp(8) })
         ac.addView(button(s(R.string.bb_logout), false) { onLogout() }, matchWrap().apply { topMargin = ctx.dp(8) })
