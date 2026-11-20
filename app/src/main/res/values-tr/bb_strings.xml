@@ -136,4 +136,16 @@
     <string name="bb_dev_port">Bağlantı noktası</string>
     <string name="bb_dev_pw">BOINC parolası (gui_rpc_auth.cfg)</string>
     <string name="bb_dev_howto">O bilgisayarda BOINC uzaktan denetime izin vermeli: BOINC Manager > Seçenekler > Bilgi işlem tercihleri > Diğer > uzak bağlantılara izin ver, ya da bu telefonun adresini remote_hosts.cfg dosyasına yazın. Parola gui_rpc_auth.cfg içindeki metindir. İki cihaz aynı ağda olmalı. Parola yalnızca bu telefonda saklanır.</string>
+    <string name="bb_remote_title">Diğer cihazlardan kontrol</string>
+    <string name="bb_remote_hint">Ağınızdaki BoincTasks, BOINC Manager veya başka bir telefonun bu telefonu izlemesine ve yönetmesine izin verir. Varsayılan olarak kapalıdır.</string>
+    <string name="bb_remote_allow">Diğer cihazlardan kontrole izin ver</string>
+    <string name="bb_remote_turn_on">Aç</string>
+    <string name="bb_remote_warn">Ağınızda parolayı bilen herkes bu telefondaki BOINC\'i yönetebilir. Yalnızca güvendiğiniz bir ağda (ev Wi-Fi) kullanın. Ayarın uygulanması için uygulama bir kez yeniden başlar.</string>
+    <string name="bb_remote_addr">Adres: %1$s   Port: 31416</string>
+    <string name="bb_remote_pw">Parola: %1$s</string>
+    <string name="bb_remote_howto">BoincTasks\'ta: Computers > Add computer, bu adresi, 31416 portunu ve parolayı girin. İki cihaz aynı ağda olmalı.</string>
+    <string name="bb_remote_change">Parolayı değiştir</string>
+    <string name="bb_remote_short">Parola en az 6 karakter olmalı.</string>
+    <string name="bb_remote_restarting">Uygulanıyor… uygulama yeniden başlayacak.</string>
+    <string name="bb_remote_failed">Ayar uygulanamadı.</string>
 </resources>

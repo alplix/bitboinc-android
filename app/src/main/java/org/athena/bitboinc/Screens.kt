@@ -515,6 +515,67 @@ class SettingsScreen(ctx: Context, p: Palette, private val onTheme: (String) -> 
         d.show()
     }
 
+    // ---- control from other devices (BoincTasks, BOINC Manager, another BitBOINC phone) -------------------------------------
+    private fun lanAddress(): String = try {
+        java.util.Collections.list(java.net.NetworkInterface.getNetworkInterfaces()).flatMap { java.util.Collections.list(it.inetAddresses) }
+            .firstOrNull { it is java.net.Inet4Address && it.isSiteLocalAddress }?.hostAddress ?: "?"
+    } catch (e: Exception) { "?" }
+
+    private fun remotePassword(): String = try { java.io.File(Hub.monitor?.getAuthFilePath() ?: "").readText().trim() } catch (e: Exception) { "" }
+
+    /** Stores the setting (and password), stops the BOINC client and restarts the app so the client comes back in the new mode. */
+    private fun applyRemote(on: Boolean, newPw: String?) {
+        toast(s(R.string.bb_remote_restarting))
+        Thread {
+            try {
+                val m = Hub.monitor ?: return@Thread
+                m.setIsRemote(on)
+                if (newPw != null) java.io.File(m.getAuthFilePath()).writeText(newPw)
+                try { m.quitClient() } catch (e: Exception) { }
+                Thread.sleep(3500)
+                val i = ctx.packageManager.getLaunchIntentForPackage(ctx.packageName)
+                if (i != null) { i.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK); ctx.startActivity(i) }
+                Thread.sleep(600)
+                android.os.Process.killProcess(android.os.Process.myPid())
+            } catch (e: Exception) { toast(s(R.string.bb_remote_failed)) }
+        }.start()
+    }
+
+    private fun newPassword(): String {
+        val a = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"; val r = java.security.SecureRandom()
+        return (1..20).map { a[r.nextInt(a.length)] }.joinToString("")
+    }
+
+    private fun remoteCard(): View {
+        val c = ctx.card(p)
+        val on = try { Hub.monitor?.getIsRemote() ?: false } catch (e: Exception) { false }
+        c.addView(ctx.label(p, s(R.string.bb_remote_hint), 12f, muted = true).also { it.setPadding(0, 0, 0, ctx.dp(6)) })
+        c.addView(toggle(s(R.string.bb_remote_allow), on) { v ->
+            val act = ctx as? android.app.Activity
+            if (v && act != null) {
+                androidx.appcompat.app.AlertDialog.Builder(act).setTitle(R.string.bb_remote_allow).setMessage(R.string.bb_remote_warn)
+                    .setNegativeButton(android.R.string.cancel) { _, _ -> Hub.snap?.let { build(it) } }
+                    .setPositiveButton(R.string.bb_remote_turn_on) { _, _ -> applyRemote(true, if (remotePassword().isEmpty()) newPassword() else null) }
+                    .setOnCancelListener { Hub.snap?.let { build(it) } }.show()
+            } else applyRemote(v, null)
+        })
+        if (on) {
+            val pw = remotePassword()
+            c.addView(ctx.label(p, s(R.string.bb_remote_addr, lanAddress()), 14f).also { it.setPadding(0, ctx.dp(6), 0, 0) })
+            c.addView(ctx.label(p, s(R.string.bb_remote_pw, if (pw.isEmpty()) "…" else pw), 14f).also { it.setPadding(0, ctx.dp(2), 0, ctx.dp(6)) })
+            c.addView(ctx.label(p, s(R.string.bb_remote_howto), 11f, muted = true).also { it.setPadding(0, 0, 0, ctx.dp(8)) })
+            c.addView(button(s(R.string.bb_remote_change), false) {
+                val act = ctx as? android.app.Activity ?: return@button
+                val et = android.widget.EditText(ctx).apply { setText(newPassword()); setTextColor(p.text); maxLines = 1 }
+                val box = ctx.vbox().apply { setPadding(ctx.dp(20), ctx.dp(10), ctx.dp(20), 0) }; box.addView(et, matchWrap())
+                androidx.appcompat.app.AlertDialog.Builder(act).setTitle(R.string.bb_remote_change).setView(box)
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok) { _, _ -> val w = et.text.toString().trim(); if (w.length >= 6) applyRemote(true, w) else toast(s(R.string.bb_remote_short)) }.show()
+            }, matchWrap())
+        }
+        return c
+    }
+
     private fun toast(t: String) { android.os.Handler(android.os.Looper.getMainLooper()).post { android.widget.Toast.makeText(ctx, t, android.widget.Toast.LENGTH_LONG).show() } }
 
     private fun setPref(change: (edu.berkeley.boinc.rpc.GlobalPreferences) -> Unit) {
@@ -596,6 +657,9 @@ class SettingsScreen(ctx: Context, p: Palette, private val onTheme: (String) -> 
         projCard = ctx.card(p)
         content.addView(projCard)
         projKey = ""
+
+        content.addView(title(s(R.string.bb_remote_title)))
+        content.addView(remoteCard())
 
         content.addView(title(s(R.string.bb_account)))
         val ac = ctx.card(p)

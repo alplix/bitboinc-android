@@ -190,4 +190,16 @@
     <string name="bb_dev_port">Port</string>
     <string name="bb_dev_pw">BOINC password (gui_rpc_auth.cfg)</string>
     <string name="bb_dev_howto">On that computer BOINC must allow remote control: in BOINC Manager choose Options > Computing preferences > Other > allow remote connections, or put the address of this phone into remote_hosts.cfg. The password is the text in gui_rpc_auth.cfg. Both devices must be on the same network. The password stays on this phone only.</string>
+    <string name="bb_remote_title">Control from other devices</string>
+    <string name="bb_remote_hint">Lets BoincTasks, BOINC Manager or another phone on your network watch and control this phone. Off by default.</string>
+    <string name="bb_remote_allow">Allow control from other devices</string>
+    <string name="bb_remote_turn_on">Turn on</string>
+    <string name="bb_remote_warn">Anyone on your network who knows the password will be able to control BOINC on this phone. Use it only on a network you trust (home Wi-Fi). The app restarts once to apply this.</string>
+    <string name="bb_remote_addr">Address: %1$s   Port: 31416</string>
+    <string name="bb_remote_pw">Password: %1$s</string>
+    <string name="bb_remote_howto">In BoincTasks: Computers > Add computer, enter this address, port 31416 and the password. Both devices must be on the same network.</string>
+    <string name="bb_remote_change">Change password</string>
+    <string name="bb_remote_short">The password needs at least 6 characters.</string>
+    <string name="bb_remote_restarting">Applying… the app restarts.</string>
+    <string name="bb_remote_failed">Could not apply the setting.</string>
 </resources>
