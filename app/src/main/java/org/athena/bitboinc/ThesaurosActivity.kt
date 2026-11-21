@@ -131,7 +131,35 @@ class ThesaurosActivity : AppCompatActivity() {
             val bars = ins.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
             v.setPadding(0, bars.top, 0, bars.bottom); ins
         }
-        loadMeta { select(0) }
+        val sv = savedInstanceState
+        if (sv != null) restoreForm(sv)
+        loadMeta { if (sv != null && sv.getInt("tab", 0) == 1) { tab = 1; select1() } else select(0) }
+    }
+
+    // Keeps a half-filled form (texts, step, photos) when the phone kills the app while the camera is open.
+    private fun draftFile(target: Int) = File(File(cacheDir, "th").apply { mkdirs() }, "draft_$target.jpg")
+    override fun onSaveInstanceState(o: Bundle) {
+        super.onSaveInstanceState(o)
+        val f = form
+        o.putInt("tab", tab); o.putInt("itemId", f.itemId); o.putInt("step", f.step)
+        o.putStringArray("txt", arrayOf(f.name, f.brand, f.model, f.category, f.quantity, f.device, f.deviceOther, f.bg, f.value, f.dur, f.dist, f.note))
+        o.putBoolean("lic", f.licence); o.putBoolean("po", f.photoObj != null); o.putBoolean("pd", f.photoDisp != null)
+        o.putString("cam", camUri?.toString()); o.putInt("pt", pendingTarget)
+    }
+    private fun restoreForm(sv: Bundle) {
+        val f = Form(); val x = sv.getStringArray("txt")
+        f.itemId = sv.getInt("itemId"); f.step = sv.getInt("step", 1).coerceIn(1, 4); f.licence = sv.getBoolean("lic")
+        if (x != null && x.size >= 12) { f.name = x[0]; f.brand = x[1]; f.model = x[2]; f.category = x[3]; f.quantity = x[4]; f.device = x[5]; f.deviceOther = x[6]; f.bg = x[7]; f.value = x[8]; f.dur = x[9]; f.dist = x[10]; f.note = x[11] }
+        for (target in 0..1) {
+            if (!sv.getBoolean(if (target == 0) "po" else "pd")) continue
+            val file = draftFile(target)
+            if (!file.exists()) continue
+            try {
+                val bytes = file.readBytes(); val prev = BitmapFactory.decodeFile(file.path, BitmapFactory.Options().apply { inSampleSize = 3 })
+                if (target == 0) { f.photoObj = bytes; f.prevObj = prev } else { f.photoDisp = bytes; f.prevDisp = prev }
+            } catch (e: Throwable) { }
+        }
+        form = f; pendingTarget = sv.getInt("pt"); camUri = sv.getString("cam")?.let { Uri.parse(it) }
     }
 
     // ---------- helpers ----------
@@ -196,7 +224,7 @@ class ThesaurosActivity : AppCompatActivity() {
     private fun select(i: Int) {
         tab = i
         tabs.forEachIndexed { n, v -> v.setTextColor(if (n == i) (if (p.light) Color.WHITE else Color.BLACK) else p.text); v.background = if (n == i) rounded(p.accent, dp(12).toFloat()) else rounded(0, dp(12).toFloat(), p.line, dp(1)) }
-        when (i) { 0 -> showCatalogue(""); 1 -> { form = Form(); showForm() }; else -> showMine() }
+        when (i) { 0 -> showCatalogue(""); 1 -> { if (form.itemId != 0 && form.bg.isEmpty() && form.value.isEmpty() && form.photoDisp == null) form = Form(); showForm() }; else -> showMine() }
     }
 
     // ---------- catalogue ----------
@@ -255,17 +283,89 @@ class ThesaurosActivity : AppCompatActivity() {
                 if (ms.isEmpty()) body.addView(label(p, t("No measurements yet.", "Henüz ölçüm yok."), 13f, muted = true))
                 ms.forEach { m ->
                     val c = card(p, 10)
+                    val shot = m.optString("photo").ifEmpty { null }
+                    if (shot != null) {
+                        val iv = ImageView(this).apply { scaleType = ImageView.ScaleType.CENTER_CROP; background = rounded(p.line, dp(8).toFloat()); clipToOutline = true
+                            setOnClickListener { try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(shot))) } catch (e: Throwable) { } } }
+                        c.addView(iv, LinearLayout.LayoutParams(dp(72), dp(72)).apply { bottomMargin = dp(6) })
+                        thumb(iv, shot.replace("objphotos/", "objphotos/t_"))
+                    }
                     c.addView(label(p, "${m.optDouble("net")} ${m.optString("unit")} " + t("net", "net"), 16f, bold = true))
                     c.addView(label(p, t("reading ", "ölçüm ") + "${m.optDouble("value")} · " + t("background ", "arka plan ") + "${m.optDouble("background")}", 12f, muted = true))
                     c.addView(label(p, m.optString("device") + " · " + m.optString("user"), 12f, muted = true))
+                    if (m.optBoolean("can_edit")) c.addView(btn(t("Edit", "Düzenle"), false) { editMeasure(id, m) })
                     val left = m.optInt("delete_left")
                     if (left > 0) c.addView(btn(t("Delete", "Sil") + " (" + leftText(left) + ")", false) { confirmDelete("measure", m.optInt("id")) { showItem(id) } })
                     body.addView(c)
                 }
                 body.addView(btn(t("Add my measurement", "Kendi ölçümümü ekle"), true) { form = Form().apply { itemId = id; step = 2 }; tab = 1; select1() })
+                if (j.optBoolean("can_edit")) body.addView(btn(t("Edit details", "Ayrıntıları düzenle"), false) { editItem(j) })
                 if (j.optInt("delete_left") > 0) body.addView(btn(t("Delete this object", "Bu nesneyi sil") + " (" + leftText(j.optInt("delete_left")) + ")", false) { confirmDelete("item", id) { select(0) } })
                 if (!j.optBoolean("mine")) body.addView(btn(t("Report a problem", "Sorun bildir"), false) { reportDialog(id) })
             }
+        }
+    }
+    private fun fmt(d: Double) = if (d == Math.floor(d) && Math.abs(d) < 1e9) d.toLong().toString() else d.toString()
+    private fun saveEdit(act: String, fields: Map<String, String>, done: () -> Unit) {
+        Toast.makeText(this, t("Saving…", "Kaydediliyor…"), Toast.LENGTH_SHORT).show()
+        run {
+            val (code, j) = ThApi.call(this, act, fields)
+            post {
+                if (code == 200 && j?.optBoolean("ok") == true) { Toast.makeText(this, j.optString("message").ifEmpty { t("Saved.", "Kaydedildi.") }, Toast.LENGTH_LONG).show(); done() }
+                else warn(j?.optString("error").takeUnless { it.isNullOrEmpty() } ?: if (code == 0) t("No connection.", "Bağlantı yok.") else t("Could not save.", "Kaydedilemedi."))
+            }
+        }
+    }
+    private fun editItem(j: JSONObject) {
+        val m = meta ?: return
+        val id = j.optInt("id"); val locked = j.optBoolean("locked")
+        var name = j.optString("name"); var brand = j.optString("brand"); var model = j.optString("model"); var category = j.optString("category")
+        var year = j.optString("year"); var material = j.optString("material"); var note = j.optString("note")
+        val cats = arr(m.optJSONArray("categories"))
+        body.removeAllViews()
+        body.addView(btn(t("‹ Back", "‹ Geri"), false) { showItem(id) })
+        body.addView(label(p, t("Edit details", "Ayrıntıları düzenle"), 18f, bold = true).apply { setPadding(0, dp(10), 0, dp(4)) })
+        if (locked) body.addView(label(p, t("Name, brand, model and category are locked because someone else added a measurement.", "Başkası ölçüm eklediği için ad, marka, model ve kategori kilitli."), 12f, muted = true))
+        body.addView(lab(t("What it is", "Ne olduğu"))); body.addView(field("", name) { name = it }.apply { isEnabled = !locked })
+        body.addView(lab(t("Brand", "Marka"))); body.addView(field("", brand) { brand = it }.apply { isEnabled = !locked })
+        body.addView(lab(t("Model or product name", "Model veya ürün adı"))); body.addView(field("", model) { model = it }.apply { isEnabled = !locked })
+        body.addView(lab(t("Category", "Kategori")))
+        body.addView(spinner(cats.map { it.optString("label") }, cats.indexOfFirst { it.optString("key") == category }.coerceAtLeast(0)) { category = cats[it].optString("key") }.apply { isEnabled = !locked })
+        body.addView(lab(t("Year", "Yıl"))); body.addView(field("", year) { year = it })
+        body.addView(lab(t("Material", "Malzeme"))); body.addView(field("", material) { material = it })
+        body.addView(lab(t("Description", "Açıklama"))); body.addView(field("", note, multi = true) { note = it })
+        nav({ showItem(id) }, t("Save", "Kaydet")) {
+            if (!locked && (name.isBlank() || brand.isBlank() || model.isBlank())) warn(t("Name, brand and model cannot be empty.", "Ad, marka ve model boş olamaz."))
+            else saveEdit("edit_item", mapOf("item_id" to id.toString(), "name" to name, "brand" to brand, "model" to model, "category" to category, "year" to year, "material" to material, "note" to note)) { showItem(id) }
+        }
+    }
+    private fun editMeasure(itemId: Int, m0: JSONObject) {
+        val m = meta ?: return
+        val qs = arr(m.optJSONArray("quantities")); val devices = (0 until (m.optJSONArray("devices")?.length() ?: 0)).map { m.optJSONArray("devices")!!.getString(it) }
+        val mid = m0.optInt("id")
+        var quantity = m0.optString("quantity"); var bg = fmt(m0.optDouble("background")); var value = fmt(m0.optDouble("value"))
+        var dur = m0.optInt("seconds").toString(); var dist = fmt(m0.optDouble("distance_cm")); var note = m0.optString("note")
+        val known = devices.contains(m0.optString("device"))
+        var device = if (known) m0.optString("device") else (devices.lastOrNull() ?: ""); var other = if (known) "" else m0.optString("device")
+        body.removeAllViews()
+        body.addView(btn(t("‹ Back", "‹ Geri"), false) { showItem(itemId) })
+        body.addView(label(p, t("Edit measurement", "Ölçümü düzenle"), 18f, bold = true).apply { setPadding(0, dp(10), 0, dp(4)) })
+        body.addView(lab(t("What was measured", "Ölçülen büyüklük")))
+        body.addView(spinner(qs.map { it.optString("label") + " (" + it.optString("unit") + ")" }, qs.indexOfFirst { it.optString("key") == quantity }.coerceAtLeast(0)) { quantity = qs[it].optString("key") })
+        body.addView(lab(t("Your device", "Cihazınız")))
+        val otherField = field(t("Brand and model", "Marka ve model"), other) { other = it }
+        fun showOther() { otherField.visibility = if (device.startsWith("Other")) View.VISIBLE else View.GONE }
+        body.addView(spinner(devices, devices.indexOf(device).coerceAtLeast(0)) { device = devices[it]; showOther() })
+        body.addView(otherField); showOther()
+        body.addView(lab(t("Background", "Arka plan"))); body.addView(field("", bg, true) { bg = it })
+        body.addView(lab(t("With the object", "Nesneyle"))); body.addView(field("", value, true) { value = it })
+        body.addView(lab(t("Averaging time (seconds)", "Ortalama süresi (saniye)"))); body.addView(field("", dur, true) { dur = it })
+        body.addView(lab(t("Distance (cm, 0 = touching)", "Mesafe (cm, 0 = temas)"))); body.addView(field("", dist, true) { dist = it })
+        body.addView(lab(t("Note (optional)", "Not (isteğe bağlı)"))); body.addView(field("", note) { note = it })
+        nav({ showItem(itemId) }, t("Save", "Kaydet")) {
+            if (bg.replace(',', '.').toDoubleOrNull() == null || value.replace(',', '.').toDoubleOrNull() == null) warn(t("Enter the background and the object reading as numbers.", "Arka plan ve nesne ölçümünü sayı olarak girin."))
+            else if (device.startsWith("Other") && other.isBlank()) warn(t("Write your device name.", "Cihaz adınızı yazın."))
+            else saveEdit("edit_measure", mapOf("measure_id" to mid.toString(), "quantity" to quantity, "device" to device, "device_other" to other, "mnote" to note, "value" to value, "bg_value" to bg, "duration_s" to dur, "distance_cm" to dist)) { showItem(itemId) }
         }
     }
     private fun select1() { tabs.forEachIndexed { n, v -> v.setTextColor(if (n == 1) (if (p.light) Color.WHITE else Color.BLACK) else p.text); v.background = if (n == 1) rounded(p.accent, dp(12).toFloat()) else rounded(0, dp(12).toFloat(), p.line, dp(1)) }; showForm() }
@@ -430,6 +530,7 @@ class ThesaurosActivity : AppCompatActivity() {
             post {
                 if (r == null) { warn(t("The photo could not be read.", "Fotoğraf okunamadı.")); return@post }
                 if (target == 0) { form.photoObj = r.first; form.prevObj = r.second } else { form.photoDisp = r.first; form.prevDisp = r.second }
+                run { try { draftFile(target).writeBytes(r.first) } catch (e: Throwable) { } }
                 if (form.step == 3) showForm()
             }
         }
@@ -482,7 +583,7 @@ class ThesaurosActivity : AppCompatActivity() {
         val f = form
         showMessage(t("Uploading…", "Gönderiliyor…"))
         run {
-            val dev = if (f.device.startsWith("Other")) "Other" else f.device
+            val dev = f.device
             val fields = HashMap<String, String>().apply {
                 put("quantity", f.quantity); put("value", f.value); put("bg_value", f.bg); put("duration_s", f.dur); put("distance_cm", f.dist)
                 put("device", dev); put("device_other", f.deviceOther); put("mnote", f.note); put("licence", "1")
@@ -496,7 +597,7 @@ class ThesaurosActivity : AppCompatActivity() {
                 when {
                     code == 200 && j?.optBoolean("ok") == true -> {
                         Toast.makeText(this, if (j.optBoolean("pending")) t("Added. It will appear after a quick review.", "Eklendi. Kısa bir incelemeden sonra görünecek.") else t("Added. Thank you!", "Eklendi. Teşekkürler!"), Toast.LENGTH_LONG).show()
-                        form = Form(); select(2)
+                        form = Form(); for (k in 0..1) draftFile(k).delete(); select(2)
                     }
                     code == 409 && j?.optString("error") == "duplicate" -> {
                         AlertDialog.Builder(this).setMessage(j.optString("message")).setPositiveButton(t("Open it", "Aç")) { _, _ -> showItem(j.optInt("item_id")) }.setNegativeButton(t("Close", "Kapat"), null).show()

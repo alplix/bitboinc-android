@@ -36,6 +36,7 @@
             android:launchMode="singleTask" />
         <activity
             android:name="org.athena.bitboinc.ThesaurosActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <provider
