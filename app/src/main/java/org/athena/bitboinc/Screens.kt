@@ -358,6 +358,14 @@ class ScienceScreen(ctx: Context, p: Palette) : Screen(ctx, p) {
     private fun render() {
         clear()
         content.addView(ctx.label(p, s(R.string.bb_science_intro), 13f, muted = true).also { it.setPadding(ctx.dp(4), ctx.dp(6), ctx.dp(4), ctx.dp(10)) })
+        run {   // Thesauros: the object catalogue is a volunteer data project, opened as its own screen
+            val tr = java.util.Locale.getDefault().language == "tr"
+            val th = ctx.card(p)
+            th.addView(ctx.label(p, "Thesauros", 16f, bold = true))
+            th.addView(ctx.label(p, if (tr) "Detektörünüzle günlük nesneleri ölçün, fotoğraflayın ve açık kataloğa ekleyin." else "Measure everyday objects with your own detector, photograph them and add them to the open catalogue.", 12f, muted = true).also { it.setPadding(0, ctx.dp(2), 0, ctx.dp(10)) })
+            th.addView(button(if (tr) "Aç" else "Open", true) { ThesaurosActivity.open(ctx) })
+            content.addView(th)
+        }
         val byId = HashMap<String, JSONObject>()
         api?.optJSONArray("apps")?.let { for (i in 0 until it.length()) byId[it.getJSONObject(i).optString("id")] = it.getJSONObject(i) }
         for (id in appOrder) {

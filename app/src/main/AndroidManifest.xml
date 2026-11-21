@@ -34,6 +34,19 @@
             android:name="org.athena.bitboinc.MainActivity"
             android:exported="false"
             android:launchMode="singleTask" />
+        <activity
+            android:name="org.athena.bitboinc.ThesaurosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.thfiles"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/th_paths" />
+        </provider>
 
         <service
             android:name="edu.berkeley.boinc.client.Monitor"
